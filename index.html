@@ -6,9 +6,37 @@
         <title>PHP Rest API</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href=""/>
+        <link rel="stylesheet" href="css/style.css"/>
     </head>
     <body>
+
+        <div id="model">
+            <form>
+                <h2 class="" align="center">Model</h2>
+                <table class="table">
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" name="sname" id="edit-name"></td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td><input type="text" name="sage" id="edit-age"></td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td><input type="text" name="scity" id="edit-city"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="button" type="submit" value="Update" name="" id="edit-update"></td>
+                    </tr>
+                </table>
+            </form>
+
+        <div id="close-btn">Close</div>
+
+        </div>
+
     
         <table border="1">
 
@@ -51,7 +79,7 @@
                                         "<td>"+value.student_name+"</td>"+
                                         "<td>"+value.age+"</td>"+
                                         "<td>"+value.city+"</td>"+
-                                        "<td><button data-eid='"+value.id+"'>Edit</button></td>"+
+                                        "<td><button class='edit-btn' data-eid='"+value.id+"'>Edit</button></td>"+
                                         "<td><button data-id='"+value.id+"'>Delete</button></td>"+
                                     
                                     "</tr>");
@@ -63,8 +91,21 @@
                 }
 
                 loadTable();
+
+
+
+
             });
+
             
+            $(document).on("click",".edit-btn",function(){
+                $("#model").show();
+            });
+
+            
+            $("#close-btn").on("click",function(){
+                $("#model").hide();
+            });
         </script>
 
 
