@@ -83,6 +83,7 @@
 
     <script type="text/javascript">
       $(document).ready(function () {
+        
         // Function to load table data
         function loadTable() {
           $("#load-table").html(""); // Clear table to prevent duplicates
@@ -129,6 +130,7 @@
 
         loadTable();
 
+        
         // Function to display messages
         function message(message, status) {
           if (status == true) {
@@ -177,15 +179,36 @@
                   loadTable();
                   $("#addForm").trigger("reset");
                 }
-              },
+              }
             });
           }
         });
 
 
         // update the table 
+        $("#edit-update").on("click", function (e) {
+          e.preventDefault();
+          var jsonObj = jsonData("#edit-form");
 
-        
+          if (jsonObj == false) {
+            message("All fields are required", false);
+          } else {
+            $.ajax({
+              url: "http://localhost/phprestapi/api-update.php",
+              type: "POST",
+              data: jsonObj,
+              success: function (data) {
+                message(data.message, data.status);
+                if (data.status == true) {
+                  loadTable();
+                  $("#model").hide();
+                  
+                }
+              }
+            });
+          }
+        });
+
         // Fetch single record and show in modal
         $(document).on("click", ".edit-btn", function () {
           $("#model").show();
@@ -211,6 +234,8 @@
           $("#model").hide();
         });
       });
+
+
     </script>
   </body>
 </html>
