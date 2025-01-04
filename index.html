@@ -1,113 +1,216 @@
-
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>PHP Rest API</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/style.css"/>
-    </head>
-    <body>
-
-        <div id="model">
-            <form>
-                <h2 class="" align="center">Model</h2>
-                <table class="table">
-                    <tr>
-                        <td>Name</td>
-                        <td><input type="text" name="sname" id="edit-name"></td>
-                    </tr>
-                    <tr>
-                        <td>Age</td>
-                        <td><input type="text" name="sage" id="edit-age"></td>
-                    </tr>
-                    <tr>
-                        <td>City</td>
-                        <td><input type="text" name="scity" id="edit-city"></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="button" type="submit" value="Update" name="" id="edit-update"></td>
-                    </tr>
-                </table>
-            </form>
-
-        <div id="close-btn">Close</div>
-
-        </div>
-
-    
-        <table border="1">
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PHP Rest API</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  
+  </head>
+  <body>
+    <div class="container">
+      <div id="model">
+        <form id="edit-form">
+          <h2 align="center">Edit Record</h2>
+          <table>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>City</th>
-                <th>Edit</th>
-                <th>Delete</th>
+              <td>Name</td>
+              <td>
+                <input type="text" name="sname" id="edit-name" />
+                <input type="hidden" name="sid" id="edit-id" />
+              </td>
             </tr>
+            <tr>
+              <td>Age</td>
+              <td><input type="text" name="sage" id="edit-age" /></td>
+            </tr>
+            <tr>
+              <td>City</td>
+              <td><input type="text" name="scity" id="edit-city" /></td>
+            </tr>
+            <tr>
+              <td><div id="close-btn">Close</div></td>
+              <td>
+                <input type="button" value="Update" id="edit-update" />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
 
-            <tbody id="load-table"></tbody>
+      <table>
+        <tr>
+          <td id="table-form" colspan="6">
+            <form id="addForm">
+              Name:
+              <input type="text" name="sname" id="add-name" />
+              Age:
+              <input type="number" name="sage" id="add-age" />
+              City:
+              <input type="text" name="scity" id="add-city" />
+              <input type="submit" value="Submit" id="save-button" />
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        <tbody id="load-table"></tbody>
+      </table>
+      <div id="success-message" class="messages"></div>
+      <div id="error-message" class="messages"></div>
+    </div>
 
-        </table>
-        
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script type ="text/javascript">
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
-            $(document).ready(function(){
+    <script type="text/javascript">
+      $(document).ready(function () {
+        // Function to load table data
+        function loadTable() {
+          $("#load-table").html(""); // Clear table to prevent duplicates
+          $.ajax({
+            url: "http://localhost/phprestapi/api-fetch-all.php",
+            type: "GET",
+            success: function (data) {
+              if (data.status == false) {
+                $("#load-table").append(
+                  "<tr><td colspan='6'><h2>" + data.message + "</h2></td></tr>"
+                );
+              } else {
+                $.each(data, function (key, value) {
+                  if (value.student_name && value.age && value.city) {
+                    // Add only non-empty rows
+                    $("#load-table").append(
+                      "<tr>" +
+                        "<td>" +
+                        value.id +
+                        "</td>" +
+                        "<td>" +
+                        value.student_name +
+                        "</td>" +
+                        "<td>" +
+                        value.age +
+                        "</td>" +
+                        "<td>" +
+                        value.city +
+                        "</td>" +
+                        "<td><button class='edit-btn' data-eid='" +
+                        value.id +
+                        "'>Edit</button></td>" +
+                        "<td><button class='delete-btn' data-id='" +
+                        value.id +
+                        "'>Delete</button></td>" +
+                        "</tr>"
+                    );
+                  }
+                });
+              }
+            },
+          });
+        }
 
-                function loadTable(){
-                    $.ajax({
-                        url :'http://localhost/phprestapi/api-fetch-all.php',
-                        type :'GET',
-                        success : function(data){
+        loadTable();
 
-                             //console.log(data);
-                            if(data.status == false){
-                                $("#load-table").append("<tr><td colspan='6'><h2>"+ data.message +"</h2></td></tr>");
-                            }
-                            else{
-                                
-                                $.each(data, function(key,value){
+        // Function to display messages
+        function message(message, status) {
+          if (status == true) {
+            $("#success-message").html(message).slideDown();
+            $("#error-message").slideUp();
+            setTimeout(function () {
+              $("#success-message").slideUp();
+            }, 3000);
+          } else {
+            $("#error-message").html(message).slideDown();
+            $("#success-message").slideUp();
+            setTimeout(function () {
+              $("#error-message").slideUp();
+            }, 3000);
+          }
+        }
 
-                                    $("#load-table").append("<tr>"
-                                        
-                                        +"<td>"+value.id+"</td>"+
-                                        "<td>"+value.student_name+"</td>"+
-                                        "<td>"+value.age+"</td>"+
-                                        "<td>"+value.city+"</td>"+
-                                        "<td><button class='edit-btn' data-eid='"+value.id+"'>Edit</button></td>"+
-                                        "<td><button data-id='"+value.id+"'>Delete</button></td>"+
-                                    
-                                    "</tr>");
+        // Convert form data to JSON
+        function jsonData(targetForm) {
+          var arr = $(targetForm).serializeArray();
+          var obj = {};
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i].value == "") {
+              return false;
+            }
+            obj[arr[i].name] = arr[i].value;
+          }
+          return JSON.stringify(obj);
+        }
 
-                                });
-                            }
-                        }
-                    })
+        // Insert new record
+        $("#save-button").on("click", function (e) {
+          e.preventDefault();
+          var jsonObj = jsonData("#addForm");
+
+          if (jsonObj == false) {
+            message("All fields are required", false);
+          } else {
+            $.ajax({
+              url: "http://localhost/phprestapi/api-insert.php",
+              type: "POST",
+              data: jsonObj,
+              success: function (data) {
+                message(data.message, data.status);
+                if (data.status == true) {
+                  loadTable();
+                  $("#addForm").trigger("reset");
                 }
-
-                loadTable();
-
-
-
-
+              },
             });
-
-            
-            $(document).on("click",".edit-btn",function(){
-                $("#model").show();
-            });
-
-            
-            $("#close-btn").on("click",function(){
-                $("#model").hide();
-            });
-        </script>
+          }
+        });
 
 
-    </body>
+        // update the table 
+
+        
+        // Fetch single record and show in modal
+        $(document).on("click", ".edit-btn", function () {
+          $("#model").show();
+          var studentId = $(this).data("eid");
+          var obj = { sid: studentId };
+          var myJSON = JSON.stringify(obj);
+
+          $.ajax({
+            url: "http://localhost/phprestapi/api-fetch-single.php",
+            type: "POST",
+            data: myJSON,
+            success: function (data) {
+              $("#edit-id").val(data[0].id);
+              $("#edit-name").val(data[0].student_name);
+              $("#edit-age").val(data[0].age);
+              $("#edit-city").val(data[0].city);
+            },
+          });
+        });
+
+        // Close modal
+        $("#close-btn").on("click", function () {
+          $("#model").hide();
+        });
+      });
+    </script>
+  </body>
 </html>

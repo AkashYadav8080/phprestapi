@@ -6,10 +6,10 @@ header('Content-Type:application/json');
 header('Access-Control-Allow-Origin:*');
 
 
-// $data = json_decode(file_get_contents("php://input"),true);
-// $student_id = $data['sid'];
+$data = json_decode(file_get_contents("php://input"),true);
+$student_id = $data['sid'];
 
-$student_id = isset($_GET['sid']) ? $_GET['sid'] : die();
+// $student_id = isset($_GET['sid']) ? $_GET['sid'] : die();
 
 
 // Include the connection file 

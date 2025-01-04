@@ -1,11 +1,37 @@
-#model{
+.container {
+    margin: 20px auto;
+    width: 90%;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table, th, td {
+    border: 1px solid black;
+    text-align: left;
+  }
+  th, td {
+    padding: 10px;
+  }
+  .messages {
     display: none;
-    width:300px;
-
-    background-color: aqua;
-   
-}
-
-#close-btn{
+    padding: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  #success-message {
     color: green;
-}
+  }
+  #error-message {
+    color: red;
+  }
+  #model {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid black;
+  }
