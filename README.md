@@ -50,7 +50,7 @@ Utilize PHP's built-in server to run the application:
 bash
 Copy code
 php -S localhost:8000 -t public
-The API will be accessible at http://localhost:8000.
+The API will be accessible at http://localhost/phprestapi/index.html
 
 API Endpoints
 The following endpoints are available for interacting with the API:
