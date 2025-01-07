@@ -18,7 +18,6 @@ $student_city = $data['scity'];
 include("config.php");
 
 // sql query for fetch data from database
-
 $sql = "insert into students (student_name,age,city) values('{$student_name}','{$student_age}','{$student_city}')";
 
 if(mysqli_query($conn,$sql)){
