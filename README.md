@@ -2,7 +2,7 @@
 
 phprestapi is a PHP-based RESTful API that provides Create, Read, Update, and Delete (CRUD) operations for managing data stored in a MySQL database. This project serves as a foundational template for building robust APIs in PHP, facilitating seamless interaction between clients and servers in web applications.
 
-#Features
+# Features
 RESTful Architecture: Adheres to REST principles, ensuring stateless communication and standardized methods.
 CRUD Operations: Supports Create, Read, Update, and Delete functionalities for database records.
 JSON Responses: Returns data in JSON format for easy consumption by various clients.
@@ -55,7 +55,7 @@ The API will be accessible at http://localhost/phprestapi/index.html
 API Endpoints
 The following endpoints are available for interacting with the API:
 
-#Create-a-Record:
+# Create-a-Record:
 
 Endpoint: POST /api-insert.php/
 Description: Adds a new record to the database.
@@ -80,11 +80,12 @@ Description: Removes a record from the database.
 Error Handling
 The API returns standard HTTP status codes to indicate the outcome of operations:
 
-200 OK: Successful read operation.
-201 Created: Successful creation of a resource.
-400 Bad Request: Invalid request parameters.
-404 Not Found: Resource not found.
-500 Internal Server Error: Server encountered an error.
+### 200 OK: Successful read operation.
+### 201 Created: Successful creation of a resource.
+### 400 Bad Request: Invalid request parameters.
+### 404 Not Found: Resource not found.
+### 500 Internal Server Error: Server encountered an error.
+
 Security Considerations
 While this project includes basic input validation and sanitization, it is crucial to implement additional security measures for production environments, such as:
 
@@ -94,8 +95,8 @@ HTTPS: Use SSL/TLS to encrypt data transmitted between the client and server.
 Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your enhancements or bug fixes.
 
-#License
+# License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-#Acknowledgments
+# Acknowledgments
 This project was inspired by various tutorials and open-source projects that demonstrate building RESTful APIs in PHP. Notably, the PHP-CRUD-API project provided valuable insights into creating efficient APIs. 
